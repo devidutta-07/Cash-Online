@@ -79,30 +79,6 @@ function joinUpdatesChannel() {
   showNotification("Opening updates channel", "info")
 }
 
-// Service status toggle (for demo/admin purposes)
-function toggleServiceStatus() {
-  const banner = document.getElementById("statusBanner")
-  const statusContent = banner.querySelector(".status-content")
-
-  if (banner.classList.contains("paused")) {
-    banner.classList.remove("paused")
-    statusContent.innerHTML = `
-            <span class="status-icon">✅</span>
-            <span class="status-text">Service Available</span>
-            <span class="status-time">24/7 Support</span>
-        `
-    showNotification("Service is now available!", "success")
-  } else {
-    banner.classList.add("paused")
-    statusContent.innerHTML = `
-            <span class="status-icon">❌</span>
-            <span class="status-text">Service Paused</span>
-            <span class="status-time">Check back later</span>
-        `
-    showNotification("Service is temporarily paused", "warning")
-  }
-}
-
 // Notification system
 function showNotification(message, type = "info") {
   // Remove existing notifications
@@ -227,9 +203,6 @@ function addInteractionEffects() {
 
 // Initialize when DOM is loaded
 document.addEventListener("DOMContentLoaded", () => {
-  // Add click event to status banner for demo
-  document.getElementById("statusBanner").addEventListener("click", toggleServiceStatus)
-
   // Add input formatting
   const amountInputs = document.querySelectorAll(".amount-input")
   amountInputs.forEach((input) => {
