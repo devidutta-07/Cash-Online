@@ -4,400 +4,179 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GIETU Cash ↔ Online Swap</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background-color: #ffffff;
-            color: #333;
-            line-height: 1.6;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        /* Header */
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px 0;
-        }
-
-        .header h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #2c3e50;
-            margin-bottom: 10px;
-        }
-
-        .tagline {
-            font-size: 1.1rem;
-            color: #7f8c8d;
-            font-weight: 500;
-        }
-
-        /* Status Banner */
-        .status-banner {
-            background: linear-gradient(135deg, #27ae60, #2ecc71);
-            color: white;
-            padding: 15px 25px;
-            border-radius: 12px;
-            text-align: center;
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
-        }
-
-        .status-banner.paused {
-            background: linear-gradient(135deg, #e74c3c, #c0392b);
-            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
-        }
-
-        /* Option Cards */
-        .options-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-
-        .option-card {
-            background: #f8f9fa;
-            border: 2px solid #e9ecef;
-            border-radius: 16px;
-            padding: 25px;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .option-card:hover {
-            border-color: #3498db;
-            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.15);
-            transform: translateY(-2px);
-        }
-
-        .option-card h3 {
-            font-size: 1.5rem;
-            color: #2c3e50;
-            margin-bottom: 15px;
-            font-weight: 600;
-        }
-
-        .amount-input {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .amount-input:focus {
-            outline: none;
-            border-color: #3498db;
-        }
-
-        .whatsapp-btn {
-            background: #25d366;
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-            transition: background 0.3s ease;
-        }
-
-        .whatsapp-btn:hover {
-            background: #128c7e;
-        }
-
-        /* Fee Table */
-        .fee-section {
-            background: #f8f9fa;
-            border-radius: 16px;
-            padding: 25px;
-            margin-bottom: 30px;
-        }
-
-        .fee-section h3 {
-            font-size: 1.4rem;
-            color: #2c3e50;
-            margin-bottom: 20px;
-            text-align: center;
-            font-weight: 600;
-        }
-
-        .fee-table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .fee-table th,
-        .fee-table td {
-            padding: 15px;
-            text-align: center;
-            border-bottom: 1px solid #eee;
-        }
-
-        .fee-table th {
-            background: #3498db;
-            color: white;
-            font-weight: 600;
-        }
-
-        .fee-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        /* Meeting Points */
-        .meeting-points {
-            background: #fff3cd;
-            border: 2px solid #ffeaa7;
-            border-radius: 16px;
-            padding: 25px;
-            margin-bottom: 30px;
-        }
-
-        .meeting-points h3 {
-            font-size: 1.4rem;
-            color: #856404;
-            margin-bottom: 15px;
-            font-weight: 600;
-        }
-
-        .meeting-points ul {
-            list-style: none;
-            margin-bottom: 15px;
-        }
-
-        .meeting-points li {
-            padding: 8px 0;
-            color: #856404;
-            font-weight: 500;
-        }
-
-        .meeting-points li:before {
-            content: "📍 ";
-            margin-right: 8px;
-        }
-
-        .important-note {
-            background: #fff;
-            border-left: 4px solid #f39c12;
-            padding: 15px;
-            margin-top: 15px;
-            border-radius: 0 8px 8px 0;
-        }
-
-        /* Action Buttons */
-        .action-buttons {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            margin-top: 30px;
-        }
-
-        .action-btn {
-            padding: 15px 25px;
-            border: none;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            text-decoration: none;
-            text-align: center;
-            transition: all 0.3s ease;
-            display: inline-block;
-        }
-
-        .whatsapp-contact {
-            background: #25d366;
-            color: white;
-        }
-
-        .whatsapp-contact:hover {
-            background: #128c7e;
-            transform: translateY(-2px);
-        }
-
-        .updates-channel {
-            background: #3498db;
-            color: white;
-        }
-
-        .updates-channel:hover {
-            background: #2980b9;
-            transform: translateY(-2px);
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .container {
-                padding: 15px;
-            }
-
-            .header h1 {
-                font-size: 2rem;
-            }
-
-            .options-container {
-                grid-template-columns: 1fr;
-            }
-
-            .action-buttons {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Background Elements -->
+    <div class="background-pattern"></div>
+    <div class="floating-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+
     <div class="container">
         <!-- Header -->
         <header class="header">
-            <h1>GIETU Cash ↔ Online Swap</h1>
-            <p class="tagline">Campus-only | Face-to-face | Safe & Reliable</p>
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo-icon">💰</div>
+                    <h1>GIETU Cash ↔ Online Swap</h1>
+                </div>
+                <p class="tagline">Campus-only • Face-to-face • Safe & Reliable</p>
+                <div class="trust-indicators">
+                    <span class="indicator">🛡️ Verified Students</span>
+                    <span class="indicator">⚡ Instant Service</span>
+                    <span class="indicator">🎓 GIET Community</span>
+                </div>
+            </div>
         </header>
 
         <!-- Status Banner -->
         <div class="status-banner" id="statusBanner">
-            ✅ Service Available
+            <div class="status-content">
+                <span class="status-icon">✅</span>
+                <span class="status-text">Service Available</span>
+                <span class="status-time">24/7 Support</span>
+            </div>
         </div>
 
         <!-- Option Cards -->
         <div class="options-container">
-            <div class="option-card">
-                <h3>💵 I need Cash</h3>
-                <input type="number" class="amount-input" id="cashAmount" placeholder="Enter amount (₹)" min="100">
-                <button class="whatsapp-btn" onclick="sendWhatsAppMessage('cash')">
-                    📱 Contact via WhatsApp
-                </button>
+            <div class="option-card cash-card">
+                <div class="card-header">
+                    <div class="card-icon">💵</div>
+                    <h3>I need Cash</h3>
+                    <p class="card-subtitle">Transfer online, get cash instantly</p>
+                </div>
+                <div class="card-body">
+                    <div class="input-group">
+                        <span class="currency-symbol">₹</span>
+                        <input type="number" class="amount-input" id="cashAmount" placeholder="Enter amount" min="100">
+                    </div>
+                    <button class="whatsapp-btn cash-btn" onclick="sendWhatsAppMessage('cash')">
+                        <span class="btn-icon">📱</span>
+                        Contact via WhatsApp
+                    </button>
+                </div>
             </div>
 
-            <div class="option-card">
-                <h3>💳 I need Online Transfer</h3>
-                <input type="number" class="amount-input" id="onlineAmount" placeholder="Enter amount (₹)" min="100">
-                <button class="whatsapp-btn" onclick="sendWhatsAppMessage('online')">
-                    📱 Contact via WhatsApp
-                </button>
+            <div class="option-card online-card">
+                <div class="card-header">
+                    <div class="card-icon">💳</div>
+                    <h3>I need Online Transfer</h3>
+                    <p class="card-subtitle">Give cash, receive online payment</p>
+                </div>
+                <div class="card-body">
+                    <div class="input-group">
+                        <span class="currency-symbol">₹</span>
+                        <input type="number" class="amount-input" id="onlineAmount" placeholder="Enter amount" min="100">
+                    </div>
+                    <button class="whatsapp-btn online-btn" onclick="sendWhatsAppMessage('online')">
+                        <span class="btn-icon">📱</span>
+                        Contact via WhatsApp
+                    </button>
+                </div>
             </div>
         </div>
 
         <!-- Fee Table -->
         <div class="fee-section">
-            <h3>💰 Transparent Fee Structure</h3>
-            <table class="fee-table">
-                <thead>
-                    <tr>
-                        <th>Amount Range</th>
-                        <th>Service Fee</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>₹100 - ₹500</td>
-                        <td>₹10</td>
-                    </tr>
-                    <tr>
-                        <td>₹501 - ₹1000</td>
-                        <td>₹20</td>
-                    </tr>
-                    <tr>
-                        <td>₹1001 - ₹2000</td>
-                        <td>₹30</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="section-header">
+                <h3>💰 Transparent Fee Structure</h3>
+                <p class="section-subtitle">No hidden charges, pay only what you see</p>
+            </div>
+            <div class="fee-table-container">
+                <table class="fee-table">
+                    <thead>
+                        <tr>
+                            <th>Amount Range</th>
+                            <th>Service Fee</th>
+                            <th>Processing Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>₹100 - ₹500</td>
+                            <td class="fee-amount">₹10</td>
+                            <td class="processing-time">2-5 mins</td>
+                        </tr>
+                        <tr>
+                            <td>₹501 - ₹1000</td>
+                            <td class="fee-amount">₹20</td>
+                            <td class="processing-time">2-5 mins</td>
+                        </tr>
+                        <tr>
+                            <td>₹1001 - ₹2000</td>
+                            <td class="fee-amount">₹30</td>
+                            <td class="processing-time">5-10 mins</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <!-- Meeting Points -->
         <div class="meeting-points">
-            <h3>📍 Safe Meeting Points on Campus</h3>
-            <ul>
-                <li>Library Main Gate</li>
-                <li>Central Canteen Entrance</li>
-                <li>Hostel Reception Area</li>
-                <li>Academic Block Lobby</li>
-            </ul>
+            <div class="section-header">
+                <h3>📍 Safe Meeting Points on Campus</h3>
+                <p class="section-subtitle">Meet only at these verified safe locations</p>
+            </div>
+            <div class="meeting-grid">
+                <div class="meeting-point">
+                    <div class="point-icon">📚</div>
+                    <h4>Library Main Gate</h4>
+                    <p>Most popular & secure</p>
+                </div>
+                <div class="meeting-point">
+                    <div class="point-icon">🍽️</div>
+                    <h4>Central Canteen</h4>
+                    <p>Always crowded & safe</p>
+                </div>
+                <div class="meeting-point">
+                    <div class="point-icon">🏠</div>
+                    <h4>Hostel Reception</h4>
+                    <p>24/7 security available</p>
+                </div>
+                <div class="meeting-point">
+                    <div class="point-icon">🎓</div>
+                    <h4>Academic Block</h4>
+                    <p>During college hours</p>
+                </div>
+            </div>
             <div class="important-note">
-                <strong>⚠️ Important:</strong> Always bring your student ID card for verification. Meet only at designated safe spots during daylight hours.
+                <div class="note-icon">⚠️</div>
+                <div class="note-content">
+                    <strong>Safety First:</strong> Always bring your student ID card for verification. Meet only at designated safe spots during daylight hours (8 AM - 8 PM).
+                </div>
             </div>
         </div>
 
         <!-- Action Buttons -->
         <div class="action-buttons">
             <a href="#" class="action-btn whatsapp-contact" onclick="openDirectWhatsApp()">
-                💬 Message on WhatsApp
+                <span class="btn-icon">💬</span>
+                <div class="btn-content">
+                    <span class="btn-title">Message on WhatsApp</span>
+                    <span class="btn-subtitle">Get instant support</span>
+                </div>
             </a>
             <a href="#" class="action-btn updates-channel" onclick="joinUpdatesChannel()">
-                📢 Join Updates Channel
+                <span class="btn-icon">📢</span>
+                <div class="btn-content">
+                    <span class="btn-title">Join Updates Channel</span>
+                    <span class="btn-subtitle">Stay informed</span>
+                </div>
             </a>
         </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Made with ❤️ for GIET University Students</p>
+            <p class="footer-note">This service is run by students, for students. Always prioritize safety!</p>
+        </footer>
     </div>
 
-    <script>
-        // Replace with your actual WhatsApp number (without + sign)
-        const WHATSAPP_NUMBER = '919692356955'; // Replace with your number
-        const UPDATES_CHANNEL = 'https://chat.whatsapp.com/your-channel-link'; // Replace with your channel link
-
-        function sendWhatsAppMessage(type) {
-            const amount = type === 'cash' ? 
-                document.getElementById('cashAmount').value : 
-                document.getElementById('onlineAmount').value;
-            
-            if (!amount || amount < 100) {
-                alert('Please enter a valid amount (minimum ₹100)');
-                return;
-            }
-
-            const message = type === 'cash' ? 
-                `Hi! I need ₹${amount} in cash. I can transfer online. Are you available?` :
-                `Hi! I need online transfer of ₹${amount}. I have cash ready. Are you available?`;
-
-            const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-            window.open(whatsappUrl, '_blank');
-        }
-
-        function openDirectWhatsApp() {
-            const message = 'Hi! I have a question about the GIETU Cash ↔ Online Swap service.';
-            const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-            window.open(whatsappUrl, '_blank');
-        }
-
-        function joinUpdatesChannel() {
-            window.open(UPDATES_CHANNEL, '_blank');
-        }
-
-        // Toggle service status (for demo purposes)
-        function toggleServiceStatus() {
-            const banner = document.getElementById('statusBanner');
-            if (banner.classList.contains('paused')) {
-                banner.classList.remove('paused');
-                banner.innerHTML = '✅ Service Available';
-            } else {
-                banner.classList.add('paused');
-                banner.innerHTML = '❌ Service Paused';
-            }
-        }
-
-        // Add click event to status banner for demo
-        document.getElementById('statusBanner').addEventListener('click', toggleServiceStatus);
-    </script>
+    <script src="scripts.js"></script>
 </body>
 </html>
