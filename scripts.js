@@ -1,44 +1,90 @@
 // Configuration - Replace with your actual details
-const WHATSAPP_NUMBER = "919876543210" // Replace with your WhatsApp number (without + sign)
-const UPDATES_CHANNEL = "https://chat.whatsapp.com/your-channel-link" // Replace with your channel link
+const CONFIG = {
+  // WhatsApp Settings
+  WHATSAPP_NUMBER: "919692356955", // Replace with your WhatsApp number (without + sign)
+  UPDATES_CHANNEL: "https://chat.whatsapp.com/your-channel-link", // Replace with your channel link
+
+  // Team Information
+  DEVELOPER_NAME: "Devidutta", // Replace with your actual name
+  DEVELOPER_PORTFOLIO: "https://my-portfolio-three-jet-43.vercel.app/", // Replace with your portfolio URL
+  MANAGER_NAME: "Sumit", // Replace with manager's name
+  MANAGER_PROFILE: "https://www.linkedin.com/in/sumit-kumar-barik-718090370/", // Replace with manager's profile URL
+
+  // Contact Information
+  EMERGENCY_CONTACT: "+91-96923-56955", // Replace with emergency contact number
+  SUPPORT_EMAIL: "deviduttadev@gmail.com", // Replace with support email
+
+  // Service Settings
+  MIN_AMOUNT: 100,
+  MAX_AMOUNT: 5000,
+  SERVICE_FEE_RATES: {
+    "100-500": 10,
+    "501-1000": 15,
+    "1001-2000": 20,
+  },
+}
 
 // Main WhatsApp messaging function
 function sendWhatsAppMessage(type) {
   const amount =
     type === "cash" ? document.getElementById("cashAmount").value : document.getElementById("onlineAmount").value
 
-  // Validation
-  if (!amount || amount < 100) {
-    showNotification("Please enter a valid amount (minimum ₹100)", "error")
+  // Enhanced validation
+  if (!amount || amount < CONFIG.MIN_AMOUNT) {
+    showNotification(`Please enter a valid amount (minimum ₹${CONFIG.MIN_AMOUNT})`, "error")
     return
   }
 
-  if (amount > 5000) {
-    showNotification("Maximum amount is ₹5000 for safety reasons", "error")
+  if (amount > CONFIG.MAX_AMOUNT) {
+    showNotification(`Maximum amount is ₹${CONFIG.MAX_AMOUNT} for safety reasons`, "error")
     return
   }
 
-  // Create personalized message
+  // Calculate service fee
+  let serviceFee = 10
+  if (amount > 500 && amount <= 1000) serviceFee = 15
+  if (amount > 1000) serviceFee = 20
+
   const serviceType = type === "cash" ? "cash" : "online transfer"
   const actionType = type === "cash" ? "transfer online" : "have cash ready"
 
-  const message = `🎓 GIETU Student Request
+  // Enhanced professional message template
+  const message = `🎓 OFFICIAL GIETU CASH SWAP REQUEST
 
-💰 Amount: ₹${amount}
-📋 Service: I need ${serviceType}
-✅ I can: ${actionType}
+👤 Student Details:
+• Name: [Your Full Name]
+• Roll No: [Your Roll Number]
+• Branch: [Your Branch]
+• Year: [Your Year]
 
-📍 Preferred meeting point: [Please specify]
-⏰ Available time: [Please specify]
+💰 Transaction Details:
+• Amount: ₹${amount}
+• Service: I need ${serviceType}
+• I can: ${actionType}
+• Service Fee: ₹${serviceFee}
+• Total: ₹${Number.parseInt(amount) + serviceFee}
 
-Are you available for this exchange?`
+📍 Meeting Preference:
+□ Central Library Gate
+□ Central Canteen  
+□ Hostel Reception
+□ Academic Block A
 
-  const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
+⏰ Available Time: [Please specify]
 
-  // Add loading state
+🆔 Student ID Ready: Yes
+📱 Contact: [Your WhatsApp Number]
+
+Are you available for this verified exchange?
+
+#GIETUCashSwap #StudentService #Verified`
+
+  const whatsappUrl = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
+
+  // Enhanced loading state
   const button = event.target
   const originalText = button.innerHTML
-  button.innerHTML = '<span class="btn-icon">⏳</span>Connecting...'
+  button.innerHTML = '<span class="btn-icon">⏳</span>Connecting to WhatsApp...'
   button.disabled = true
 
   setTimeout(() => {
@@ -64,19 +110,39 @@ Could you please help me with:
 
 Thank you!`
 
-  const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
+  const whatsappUrl = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
   window.open(whatsappUrl, "_blank")
   showNotification("Opening WhatsApp for direct support", "info")
 }
 
 // Join updates channel
 function joinUpdatesChannel() {
-  if (UPDATES_CHANNEL.includes("your-channel-link")) {
+  if (CONFIG.UPDATES_CHANNEL.includes("your-channel-link")) {
     showNotification("Updates channel link not configured yet", "error")
     return
   }
-  window.open(UPDATES_CHANNEL, "_blank")
+  window.open(CONFIG.UPDATES_CHANNEL, "_blank")
   showNotification("Opening updates channel", "info")
+}
+
+function openProfileLink(type) {
+  let url, name
+
+  if (type === "developer") {
+    url = CONFIG.DEVELOPER_PORTFOLIO
+    name = CONFIG.DEVELOPER_NAME
+  } else if (type === "manager") {
+    url = CONFIG.MANAGER_PROFILE
+    name = CONFIG.MANAGER_NAME
+  }
+
+  if (url.includes("your-portfolio-website.com") || url.includes("manager-profile-link.com")) {
+    showNotification(`${name}'s profile link not configured yet`, "warning")
+    return
+  }
+
+  window.open(url, "_blank")
+  showNotification(`Opening ${name}'s profile`, "info")
 }
 
 // Notification system
@@ -157,9 +223,9 @@ function formatAmountInput(input) {
   let value = input.value.replace(/[^\d]/g, "")
   if (value) {
     value = Number.parseInt(value)
-    if (value > 5000) {
-      value = 5000
-      showNotification("Maximum amount is ₹5000", "warning")
+    if (value > CONFIG.MAX_AMOUNT) {
+      value = CONFIG.MAX_AMOUNT
+      showNotification(`Maximum amount is ₹${CONFIG.MAX_AMOUNT}`, "warning")
     }
     input.value = value
   }
@@ -201,15 +267,109 @@ function addInteractionEffects() {
   })
 }
 
+function hideConfigNotice() {
+  const notice = document.getElementById("configNotice")
+  if (notice) {
+    notice.style.display = "none"
+    localStorage.setItem("configNoticeHidden", "true")
+  }
+}
+
+function checkConfiguration() {
+  const isConfigured =
+    !CONFIG.WHATSAPP_NUMBER.includes("919876543210") &&
+    !CONFIG.UPDATES_CHANNEL.includes("your-channel-link") &&
+    !CONFIG.DEVELOPER_NAME.includes("Your Name") &&
+    !CONFIG.DEVELOPER_PORTFOLIO.includes("your-portfolio-website.com") &&
+    !CONFIG.MANAGER_NAME.includes("Manager Name") &&
+    !CONFIG.MANAGER_PROFILE.includes("manager-profile-link.com") &&
+    !CONFIG.EMERGENCY_CONTACT.includes("XXXX") &&
+    !CONFIG.SUPPORT_EMAIL.includes("support@gietucashswap.com")
+
+  const notice = document.getElementById("configNotice")
+  const isHidden = localStorage.getItem("configNoticeHidden")
+
+  if (isConfigured || isHidden) {
+    if (notice) notice.style.display = "none"
+  }
+
+  // Update configuration checklist
+  const configList = document.getElementById("configList")
+  if (configList) {
+    const items = [
+      { key: "WHATSAPP_NUMBER", text: "WhatsApp Number", configured: !CONFIG.WHATSAPP_NUMBER.includes("919876543210") },
+      {
+        key: "UPDATES_CHANNEL",
+        text: "Updates Channel Link",
+        configured: !CONFIG.UPDATES_CHANNEL.includes("your-channel-link"),
+      },
+      {
+        key: "DEVELOPER_NAME",
+        text: "Developer Name & Portfolio",
+        configured: !CONFIG.DEVELOPER_NAME.includes("Your Name"),
+      },
+      {
+        key: "MANAGER_NAME",
+        text: "Manager Name & Profile",
+        configured: !CONFIG.MANAGER_NAME.includes("Manager Name"),
+      },
+      {
+        key: "EMERGENCY_CONTACT",
+        text: "Emergency Contact Number",
+        configured: !CONFIG.EMERGENCY_CONTACT.includes("XXXX"),
+      },
+      {
+        key: "SUPPORT_EMAIL",
+        text: "Support Email",
+        configured: !CONFIG.SUPPORT_EMAIL.includes("support@gietucashswap.com"),
+      },
+    ]
+
+    configList.innerHTML = items.map((item) => `<li>${item.configured ? "✅" : "❌"} ${item.text}</li>`).join("")
+  }
+}
+
 // Initialize when DOM is loaded
 document.addEventListener("DOMContentLoaded", () => {
+  // Check configuration status
+  checkConfiguration()
+
+  const developerLink = document.getElementById("developerLink")
+  const managerLink = document.getElementById("managerLink")
+
+  if (developerLink) {
+    developerLink.textContent = CONFIG.DEVELOPER_NAME
+    developerLink.addEventListener("click", (e) => {
+      e.preventDefault()
+      if (CONFIG.DEVELOPER_PORTFOLIO.includes("your-portfolio-website.com")) {
+        showNotification(`${CONFIG.DEVELOPER_NAME}'s portfolio link not configured yet`, "warning")
+        return
+      }
+      window.open(CONFIG.DEVELOPER_PORTFOLIO, "_blank")
+      showNotification(`Opening ${CONFIG.DEVELOPER_NAME}'s portfolio`, "info")
+    })
+  }
+
+  if (managerLink) {
+    managerLink.textContent = CONFIG.MANAGER_NAME
+    managerLink.addEventListener("click", (e) => {
+      e.preventDefault()
+      if (CONFIG.MANAGER_PROFILE.includes("manager-profile-link.com")) {
+        showNotification(`${CONFIG.MANAGER_NAME}'s profile link not configured yet`, "warning")
+        return
+      }
+      window.open(CONFIG.MANAGER_PROFILE, "_blank")
+      showNotification(`Opening ${CONFIG.MANAGER_NAME}'s profile`, "info")
+    })
+  }
+
   // Add input formatting
   const amountInputs = document.querySelectorAll(".amount-input")
   amountInputs.forEach((input) => {
     input.addEventListener("input", () => formatAmountInput(input))
     input.addEventListener("blur", function () {
-      if (this.value && Number.parseInt(this.value) < 100) {
-        showNotification("Minimum amount is ₹100", "warning")
+      if (this.value && Number.parseInt(this.value) < CONFIG.MIN_AMOUNT) {
+        showNotification(`Minimum amount is ₹${CONFIG.MIN_AMOUNT}`, "warning")
         this.focus()
       }
     })
@@ -218,9 +378,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // Add interaction effects
   addInteractionEffects()
 
-  // Show welcome message
+  // Enhanced welcome message
   setTimeout(() => {
-    showNotification("Welcome to GIETU Cash Swap! 🎓", "success")
+    showNotification("Welcome to Official GIETU Cash Swap! 🎓✨", "success")
   }, 1000)
 })
 
