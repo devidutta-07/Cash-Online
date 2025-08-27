@@ -27,11 +27,11 @@
                 </div>
                 
                 <div class="hero-image">
-                    <img src="/images/giet.jpg" alt="GIET University Campus" class="campus-image">
+                    <img src="/images/giet.webp" alt="GIET University Campus" class="campus-image">
                     <div class="image-overlay">
                         <div class="overlay-text">
                             <h2>Trusted by 2000+ Students</h2>
-                            <p>Since 2023 • Zero Fraud Cases</p>
+                            <p>Since 2025 • Zero Fraud Cases</p>
                         </div>
                     </div>
                 </div>
@@ -80,8 +80,8 @@
         <div class="status-banner" id="statusBanner">
             <div class="status-content">
                 <span class="status-icon">✅</span>
-                <span class="status-text">Service Available Now</span>
-                <span class="status-time">Response within 2 minutes</span>
+                <span class="status-text">Service Available (May Take sometime if there is class)</span>
+                <span class="status-time">Response within 2-3 minutes</span>
                 <div class="live-indicator">
                     <span class="pulse-dot"></span>
                     <span>Live</span>
@@ -141,18 +141,18 @@
             <div class="credibility-grid">
                 <div class="credibility-item">
                     <!-- Enhanced credibility images -->
-                    <img src="/placeholder.svg?height=150&width=200" alt="Students using service" class="credibility-image">
+                    <!-- <img src="/placeholder.svg?height=150&width=200" alt="Students using service" class="credibility-image"> -->
                     <h4>50+ Happy Students</h4>
                     <p>Successfully completed transactions</p>
                 </div>
                 <div class="credibility-item">
-                    <img src="/placeholder.svg?height=150&width=200" alt="Secure transactions" class="credibility-image">
+                    <!-- <img src="/placeholder.svg?height=150&width=200" alt="Secure transactions" class="credibility-image"> -->
                     <h4>100% Secure</h4>
                     <p>Face-to-face verification only</p>
                 </div>
                 <div class="credibility-item">
-                    <img src="/placeholder.svg?height=150&width=200" alt="Quick service" class="credibility-image">
-                    <h4>Under 1 hour</h4>
+                    <!-- <img src="/placeholder.svg?height=150&width=200" alt="Quick service" class="credibility-image"> -->
+                    <h4>Under 30 min</h4>
                     <p>Average transaction time</p>
                 </div>
             </div>
@@ -166,8 +166,8 @@
                     <h3>I need Cash</h3>
                     <p class="card-subtitle">Transfer online, get cash instantly</p>
                     <div class="service-stats">
-                        <span>✅ 1200+ completed</span>
-                        <span>⚡ Avg: 4 mins</span>
+                        <span>✅ 100+ completed</span>
+                        <span>⚡ Avg: 20 mins</span>
                     </div>
                 </div>
                 <div class="card-body">
@@ -177,8 +177,23 @@
                     </div>
                     <div class="input-group">
                         <input type="text" class="roll-input" id="cashRoll" placeholder="Enter roll number (e.g., 23CSE231)" required>
-                        <div class="input-hint">Format: 23CSE231, 12AGRI89, etc.</div>
+                        <div class="input-hint">Format: 23CSE231, 24CSEAIML210, etc.</div>
                         <div class="validation-message" id="cashRollValidation"></div>
+                        <!-- Added auto-detected information display -->
+                        <div class="auto-detected-info" id="cashAutoInfo" style="display: none;">
+                            <div class="info-item">
+                                <span class="info-label">Branch:</span>
+                                <span class="info-value" id="cashBranch">-</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Year:</span>
+                                <span class="info-value" id="cashYear">-</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Roll:</span>
+                                <span class="info-value" id="cashRollNum">-</span>
+                            </div>
+                        </div>
                     </div>
                     <div class="input-group">
                         <span class="currency-symbol">₹</span>
@@ -198,8 +213,8 @@
                     <h3>I need Online Transfer</h3>
                     <p class="card-subtitle">Give cash, receive online payment</p>
                     <div class="service-stats">
-                        <span>✅ 800+ completed</span>
-                        <span>⚡ Avg: 3 mins</span>
+                        <span>✅ 80+ completed</span>
+                        <span>⚡ Avg: 15 mins</span>
                     </div>
                 </div>
                 <div class="card-body">
@@ -211,6 +226,21 @@
                         <input type="text" class="roll-input" id="onlineRoll" placeholder="Enter roll number (e.g., 23CSE231)" required>
                         <div class="input-hint">Format: 23CSE231, 12AGRI89, etc.</div>
                         <div class="validation-message" id="onlineRollValidation"></div>
+                        <!-- Added auto-detected information display -->
+                        <div class="auto-detected-info" id="onlineAutoInfo" style="display: none;">
+                            <div class="info-item">
+                                <span class="info-label">Branch:</span>
+                                <span class="info-value" id="onlineBranch">-</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Year:</span>
+                                <span class="info-value" id="onlineYear">-</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Roll:</span>
+                                <span class="info-value" id="onlineRollNum">-</span>
+                            </div>
+                        </div>
                     </div>
                     <div class="input-group">
                         <span class="currency-symbol">₹</span>
@@ -338,24 +368,24 @@
                     <h4>🎓 GIETU Cash ↔ Online Swap</h4>
                     <p>Official student service for GIET University community</p>
                     <div class="footer-stats">
-                        <span>2000+ Happy Students</span>
+                        <span>200+ Happy Students</span>
                         <span>•</span>
                         <span>Zero Fraud Cases</span>
                         <span>•</span>
-                        <span>Since 2023</span>
+                        <span>Since 2025</span>
                     </div>
                 </div>
                 
                 <div class="footer-contact">
                     <h5>📞 Emergency Contact</h5>
                     <p>For urgent issues: <strong>+91-9692356955</strong></p>
-                    <p>Email: <strong>support@gietucashswap.com</strong></p>
+                    <p>Email: <strong>deviduttadev@gmail.com</strong></p>
                 </div>
             </div>
             
             <div class="credits-section">
                 <div class="credit-item">
-                    <img src="/images/Dev.jpg" alt="Developer" class="profile-image">
+                    <img src="/images/Dev.webp" alt="Developer" class="profile-image">
                     <div class="credit-info">
                         <span class="credit-label">Developed by</span>
                         <a href="https://my-portfolio-three-jet-43.vercel.app/" class="credit-link" id="developerLink">Your Name</a>
@@ -363,7 +393,7 @@
                     </div>
                 </div>
                 <div class="credit-item">
-                    <img src="/images/Sum.jpg" alt="Manager" class="profile-image">
+                    <img src="/images/Sumit.webp" alt="Manager" class="profile-image">
                     <div class="credit-info">
                         <span class="credit-label">Managed by</span>
                         <a href="#" class="credit-link" id="managerLink">Manager Name</a>
@@ -373,7 +403,7 @@
             </div>
             
             <div class="footer-bottom">
-                <p>&copy; 2024 GIETU Cash Swap. All rights reserved.</p>
+                <p>&copy; 2025 GIETU Cash Swap. All rights reserved.</p>
                 <div class="footer-links">
                     <a href="#privacy">Privacy Policy</a>
                     <a href="#terms">Terms of Service</a>
@@ -381,23 +411,6 @@
                 </div>
             </div>
         </footer>
-    </div>
-
-    <!-- Added configuration notice for easy setup -->
-    <div id="configNotice" class="config-notice">
-        <div class="config-content">
-            <h4>⚙️ Configuration Required</h4>
-            <p>Please update the following in <code>scripts.js</code>:</p>
-            <ul id="configList">
-                <li>✅ WhatsApp Number</li>
-                <li>✅ Updates Channel Link</li>
-                <li>✅ Developer Name & Portfolio</li>
-                <li>✅ Manager Name & Profile</li>
-                <li>✅ Emergency Contact Number</li>
-                <li>✅ Support Email</li>
-            </ul>
-            <button onclick="hideConfigNotice()" class="config-close">Got it!</button>
-        </div>
     </div>
 
     <script src="scripts.js"></script>

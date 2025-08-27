@@ -1,8 +1,8 @@
 // Configuration - Replace with your actual details
 const CONFIG = {
   // WhatsApp Settings
-  WHATSAPP_NUMBER: "919692356955", // Replace with your WhatsApp number (without + sign)
-  UPDATES_CHANNEL: "https://chat.whatsapp.com/your-channel-link", // Replace with your channel link
+  WHATSAPP_NUMBER: "917328804124", // Replace with your WhatsApp number (without + sign)
+  UPDATES_CHANNEL: "https://chat.whatsapp.com/DRL85kuMvIMEX0tLsZKAl0?mode=ems_wa_t", // Replace with your channel link
 
   // Team Information
   DEVELOPER_NAME: "Devidutta", // Replace with your actual name
@@ -30,9 +30,41 @@ function validateRollNumber(rollNumber) {
   return ROLL_NUMBER_REGEX.test(rollNumber.trim())
 }
 
+function parseRollNumber(rollNumber) {
+  const trimmed = rollNumber.trim()
+  const match = trimmed.match(/^(\d{2,4})([a-zA-Z]{2,6})(\d{1,4})$/)
+
+  if (!match) {
+    return { branch: "", year: "", rollNum: "" }
+  }
+
+  const [, yearPart, branchPart, rollPart] = match
+
+  // Convert 2-digit year to 4-digit year (e.g., 23 -> 2023, 12 -> 2012)
+  let fullYear = ""
+  if (yearPart.length === 2) {
+    const year = Number.parseInt(yearPart)
+    // Assume years 00-30 are 2000s, 31-99 are 1900s
+    fullYear = year <= 30 ? `20${yearPart}` : `19${yearPart}`
+  } else {
+    fullYear = yearPart
+  }
+
+  return {
+    branch: branchPart.toUpperCase(),
+    year: fullYear,
+    rollNum: rollPart,
+  }
+}
+
 function setupRollValidation(rollInputId, validationMessageId) {
   const rollInput = document.getElementById(rollInputId)
   const validationMessage = document.getElementById(validationMessageId)
+  const autoInfoId = rollInputId.replace("Roll", "AutoInfo")
+  const autoInfo = document.getElementById(autoInfoId)
+  const branchElement = document.getElementById(rollInputId.replace("Roll", "Branch"))
+  const yearElement = document.getElementById(rollInputId.replace("Roll", "Year"))
+  const rollNumElement = document.getElementById(rollInputId.replace("Roll", "RollNum"))
 
   if (rollInput && validationMessage) {
     rollInput.addEventListener("input", function () {
@@ -42,6 +74,7 @@ function setupRollValidation(rollInputId, validationMessageId) {
         this.classList.remove("valid", "invalid")
         validationMessage.textContent = ""
         validationMessage.classList.remove("success", "error")
+        if (autoInfo) autoInfo.style.display = "none"
         return
       }
 
@@ -51,18 +84,27 @@ function setupRollValidation(rollInputId, validationMessageId) {
         validationMessage.textContent = "✓ Valid roll number format"
         validationMessage.classList.remove("error")
         validationMessage.classList.add("success")
+
+        // Parse and display auto-detected information
+        const parsed = parseRollNumber(rollNumber)
+        if (autoInfo && branchElement && yearElement && rollNumElement) {
+          branchElement.textContent = parsed.branch
+          yearElement.textContent = parsed.year
+          rollNumElement.textContent = parsed.rollNum
+          autoInfo.style.display = "block"
+        }
       } else {
         this.classList.remove("valid")
         this.classList.add("invalid")
         validationMessage.textContent = "✗ Invalid format. Use: 23CSE231, 12AGRI89, etc."
         validationMessage.classList.remove("success")
         validationMessage.classList.add("error")
+        if (autoInfo) autoInfo.style.display = "none"
       }
     })
   }
 }
 
-// Main WhatsApp messaging function
 function sendWhatsAppMessage(type) {
   const name =
     type === "cash"
@@ -108,19 +150,23 @@ function sendWhatsAppMessage(type) {
   const serviceType = type === "cash" ? "cash" : "online transfer"
   const actionType = type === "cash" ? "transfer online" : "have cash ready"
 
-  const message = `🎓 OFFICIAL GIETU CASH SWAP REQUEST
+  // Parse roll number for detailed information
+  const parsed = parseRollNumber(rollNumber)
 
+  const message = `🎓 OFFICIAL GIETU CASH SWAP REQUEST
 👤 Student Details:
 • Name: ${name}
 • Roll No: ${rollNumber}
-• Branch: [Auto-detected from roll]
-• Year: [Auto-detected from roll]
+• Branch: ${parsed.branch}
+• Year: ${parsed.year}
+• Roll: ${parsed.rollNum}
 
 💰 Transaction Details:
 • Amount: ₹${amount}
 • Service: I need ${serviceType}
 • I can: ${actionType}
 • Service Fee: ₹${serviceFee}
+
 • Total: ₹${Number.parseInt(amount) + serviceFee}
 
 Are you available for this verified exchange?
