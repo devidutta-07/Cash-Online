@@ -24,12 +24,72 @@ const CONFIG = {
   },
 }
 
+const ROLL_NUMBER_REGEX = /^(\d{2,4})[a-zA-Z]{2,6}\d{1,4}$/
+
+function validateRollNumber(rollNumber) {
+  return ROLL_NUMBER_REGEX.test(rollNumber.trim())
+}
+
+function setupRollValidation(rollInputId, validationMessageId) {
+  const rollInput = document.getElementById(rollInputId)
+  const validationMessage = document.getElementById(validationMessageId)
+
+  if (rollInput && validationMessage) {
+    rollInput.addEventListener("input", function () {
+      const rollNumber = this.value.trim()
+
+      if (rollNumber === "") {
+        this.classList.remove("valid", "invalid")
+        validationMessage.textContent = ""
+        validationMessage.classList.remove("success", "error")
+        return
+      }
+
+      if (validateRollNumber(rollNumber)) {
+        this.classList.remove("invalid")
+        this.classList.add("valid")
+        validationMessage.textContent = "✓ Valid roll number format"
+        validationMessage.classList.remove("error")
+        validationMessage.classList.add("success")
+      } else {
+        this.classList.remove("valid")
+        this.classList.add("invalid")
+        validationMessage.textContent = "✗ Invalid format. Use: 23CSE231, 12AGRI89, etc."
+        validationMessage.classList.remove("success")
+        validationMessage.classList.add("error")
+      }
+    })
+  }
+}
+
 // Main WhatsApp messaging function
 function sendWhatsAppMessage(type) {
+  const name =
+    type === "cash"
+      ? document.getElementById("cashName").value.trim()
+      : document.getElementById("onlineName").value.trim()
+  const rollNumber =
+    type === "cash"
+      ? document.getElementById("cashRoll").value.trim()
+      : document.getElementById("onlineRoll").value.trim()
   const amount =
     type === "cash" ? document.getElementById("cashAmount").value : document.getElementById("onlineAmount").value
 
-  // Enhanced validation
+  if (!name) {
+    showNotification("Please enter your full name", "error")
+    return
+  }
+
+  if (!rollNumber) {
+    showNotification("Please enter your roll number", "error")
+    return
+  }
+
+  if (!validateRollNumber(rollNumber)) {
+    showNotification("Please enter a valid roll number (e.g., 23CSE231, 12AGRI89)", "error")
+    return
+  }
+
   if (!amount || amount < CONFIG.MIN_AMOUNT) {
     showNotification(`Please enter a valid amount (minimum ₹${CONFIG.MIN_AMOUNT})`, "error")
     return
@@ -48,14 +108,13 @@ function sendWhatsAppMessage(type) {
   const serviceType = type === "cash" ? "cash" : "online transfer"
   const actionType = type === "cash" ? "transfer online" : "have cash ready"
 
-  // Enhanced professional message template
   const message = `🎓 OFFICIAL GIETU CASH SWAP REQUEST
 
 👤 Student Details:
-• Name: [Your Full Name]
-• Roll No: [Your Roll Number]
-• Branch: [Your Branch]
-• Year: [Your Year]
+• Name: ${name}
+• Roll No: ${rollNumber}
+• Branch: [Auto-detected from roll]
+• Year: [Auto-detected from roll]
 
 💰 Transaction Details:
 • Amount: ₹${amount}
@@ -64,19 +123,7 @@ function sendWhatsAppMessage(type) {
 • Service Fee: ₹${serviceFee}
 • Total: ₹${Number.parseInt(amount) + serviceFee}
 
-📍 Meeting Preference:
-□ Central Library Gate
-□ Central Canteen  
-□ Hostel Reception
-□ Academic Block A
-
-⏰ Available Time: [Please specify]
-
-🆔 Student ID Ready: Yes
-📱 Contact: [Your WhatsApp Number]
-
 Are you available for this verified exchange?
-
 #GIETUCashSwap #StudentService #Verified`
 
   const whatsappUrl = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
@@ -334,6 +381,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // Check configuration status
   checkConfiguration()
 
+  setupRollValidation("cashRoll", "cashRollValidation")
+  setupRollValidation("onlineRoll", "onlineRollValidation")
+
   const developerLink = document.getElementById("developerLink")
   const managerLink = document.getElementById("managerLink")
 
@@ -380,7 +430,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Enhanced welcome message
   setTimeout(() => {
-    showNotification("Welcome to Official GIETU Cash Swap! 🎓✨", "success")
+    showNotification("Welcome to Official GIETUCash Swap! 🎓✨", "success")
   }, 1000)
 })
 

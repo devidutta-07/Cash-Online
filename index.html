@@ -172,6 +172,15 @@
                 </div>
                 <div class="card-body">
                     <div class="input-group">
+                        <input type="text" class="name-input" id="cashName" placeholder="Enter your full name" required>
+                        <div class="input-hint">Full name as per student ID</div>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" class="roll-input" id="cashRoll" placeholder="Enter roll number (e.g., 23CSE231)" required>
+                        <div class="input-hint">Format: 23CSE231, 12AGRI89, etc.</div>
+                        <div class="validation-message" id="cashRollValidation"></div>
+                    </div>
+                    <div class="input-group">
                         <span class="currency-symbol">₹</span>
                         <input type="number" class="amount-input" id="cashAmount" placeholder="Enter amount" min="100" max="5000">
                         <div class="input-hint">Min: ₹100 | Max: ₹5000</div>
@@ -194,6 +203,15 @@
                     </div>
                 </div>
                 <div class="card-body">
+                    <div class="input-group">
+                        <input type="text" class="name-input" id="onlineName" placeholder="Enter your full name" required>
+                        <div class="input-hint">Full name as per student ID</div>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" class="roll-input" id="onlineRoll" placeholder="Enter roll number (e.g., 23CSE231)" required>
+                        <div class="input-hint">Format: 23CSE231, 12AGRI89, etc.</div>
+                        <div class="validation-message" id="onlineRollValidation"></div>
+                    </div>
                     <div class="input-group">
                         <span class="currency-symbol">₹</span>
                         <input type="number" class="amount-input" id="onlineAmount" placeholder="Enter amount" min="100" max="5000">
