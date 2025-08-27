@@ -386,40 +386,40 @@ function checkConfiguration() {
     if (notice) notice.style.display = "none"
   }
 
-  // Update configuration checklist
-  const configList = document.getElementById("configList")
-  if (configList) {
-    const items = [
-      { key: "WHATSAPP_NUMBER", text: "WhatsApp Number", configured: !CONFIG.WHATSAPP_NUMBER.includes("919876543210") },
-      {
-        key: "UPDATES_CHANNEL",
-        text: "Updates Channel Link",
-        configured: !CONFIG.UPDATES_CHANNEL.includes("your-channel-link"),
-      },
-      {
-        key: "DEVELOPER_NAME",
-        text: "Developer Name & Portfolio",
-        configured: !CONFIG.DEVELOPER_NAME.includes("Your Name"),
-      },
-      {
-        key: "MANAGER_NAME",
-        text: "Manager Name & Profile",
-        configured: !CONFIG.MANAGER_NAME.includes("Manager Name"),
-      },
-      {
-        key: "EMERGENCY_CONTACT",
-        text: "Emergency Contact Number",
-        configured: !CONFIG.EMERGENCY_CONTACT.includes("XXXX"),
-      },
-      {
-        key: "SUPPORT_EMAIL",
-        text: "Support Email",
-        configured: !CONFIG.SUPPORT_EMAIL.includes("support@gietucashswap.com"),
-      },
-    ]
+  // // Update configuration checklist
+  // const configList = document.getElementById("configList")
+  // if (configList) {
+  //   const items = [
+  //     { key: "WHATSAPP_NUMBER", text: "WhatsApp Number", configured: !CONFIG.WHATSAPP_NUMBER.includes("919876543210") },
+  //     {
+  //       key: "UPDATES_CHANNEL",
+  //       text: "Updates Channel Link",
+  //       configured: !CONFIG.UPDATES_CHANNEL.includes("your-channel-link"),
+  //     },
+  //     {
+  //       key: "DEVELOPER_NAME",
+  //       text: "Developer Name & Portfolio",
+  //       configured: !CONFIG.DEVELOPER_NAME.includes("Your Name"),
+  //     },
+  //     {
+  //       key: "MANAGER_NAME",
+  //       text: "Manager Name & Profile",
+  //       configured: !CONFIG.MANAGER_NAME.includes("Manager Name"),
+  //     },
+  //     {
+  //       key: "EMERGENCY_CONTACT",
+  //       text: "Emergency Contact Number",
+  //       configured: !CONFIG.EMERGENCY_CONTACT.includes("XXXX"),
+  //     },
+  //     {
+  //       key: "SUPPORT_EMAIL",
+  //       text: "Support Email",
+  //       configured: !CONFIG.SUPPORT_EMAIL.includes("support@gietucashswap.com"),
+  //     },
+  //   ]
 
-    configList.innerHTML = items.map((item) => `<li>${item.configured ? "✅" : "❌"} ${item.text}</li>`).join("")
-  }
+  //   configList.innerHTML = items.map((item) => `<li>${item.configured ? "✅" : "❌"} ${item.text}</li>`).join("")
+  // }
 }
 
 // Initialize when DOM is loaded
