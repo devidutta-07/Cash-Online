@@ -24,7 +24,7 @@ const CONFIG = {
   },
 }
 
-const ROLL_NUMBER_REGEX = /^(\d{2,4})[a-zA-Z]{2,6}\d{1,4}$/
+const ROLL_NUMBER_REGEX = /^(\d{2,4})[a-zA-Z]{2,7}\d{1,4}$/
 
 function validateRollNumber(rollNumber) {
   return ROLL_NUMBER_REGEX.test(rollNumber.trim())
