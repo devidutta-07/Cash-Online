@@ -32,7 +32,7 @@ function validateRollNumber(rollNumber) {
 
 function parseRollNumber(rollNumber) {
   const trimmed = rollNumber.trim()
-  const match = trimmed.match(/^(\d{2,4})([a-zA-Z]{2,6})(\d{1,4})$/)
+  const match = trimmed.match(/^(\d{2,4})([a-zA-Z]{2,7})(\d{1,4})$/)
 
   if (!match) {
     return { branch: "", year: "", rollNum: "" }
@@ -166,8 +166,8 @@ function sendWhatsAppMessage(type) {
 • Service: I need ${serviceType}
 • I can: ${actionType}
 • Service Fee: ₹${serviceFee}
-
-• Total: ₹${Number.parseInt(amount) + serviceFee}
+-----------------------
+• Total Amount: ₹${Number.parseInt(amount) + serviceFee}
 
 Are you available for this verified exchange?
 #GIETUCashSwap #StudentService #Verified`
