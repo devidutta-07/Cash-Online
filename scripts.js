@@ -476,7 +476,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Enhanced welcome message
   setTimeout(() => {
-    showNotification("Welcome to Official GIETUCash Swap! 🎓✨", "success")
+    // showNotification("Welcome to Official GIETUCash Swap! 🎓✨", "success")
   }, 1000)
 })
 
