@@ -2,7 +2,8 @@ User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://gietucashswap.com/sitemap.xml
+Sitemap:https://cash-online.vercel.app/
+
 
 # Crawl delay (optional)
 Crawl-delay: 1
