@@ -153,7 +153,7 @@ function sendWhatsAppMessage(type) {
   // Parse roll number for detailed information
   const parsed = parseRollNumber(rollNumber)
 
-  const message = `🎓 OFFICIAL GIETU CASH SWAP REQUEST
+  const message = `🎓 OFFICIAL Cash-Online REQUEST
 👤 Student Details:
 • Name: ${name}
 • Roll No: ${rollNumber}
@@ -170,7 +170,7 @@ function sendWhatsAppMessage(type) {
 • Total Amount: ₹${Number.parseInt(amount) + serviceFee}
 
 Are you available for this verified exchange?
-#GIETUCashSwap #StudentService #Verified`
+#Cash-Online #StudentService #Verified`
 
   const whatsappUrl = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
 
@@ -377,7 +377,7 @@ function checkConfiguration() {
     !CONFIG.MANAGER_NAME.includes("Manager Name") &&
     !CONFIG.MANAGER_PROFILE.includes("manager-profile-link.com") &&
     !CONFIG.EMERGENCY_CONTACT.includes("XXXX") &&
-    !CONFIG.SUPPORT_EMAIL.includes("support@gietucashswap.com")
+    !CONFIG.SUPPORT_EMAIL.includes("s.com")
 
   const notice = document.getElementById("configNotice")
   const isHidden = localStorage.getItem("configNoticeHidden")
@@ -414,7 +414,7 @@ function checkConfiguration() {
   //     {
   //       key: "SUPPORT_EMAIL",
   //       text: "Support Email",
-  //       configured: !CONFIG.SUPPORT_EMAIL.includes("support@gietucashswap.com"),
+  //       configured: !CONFIG.SUPPORT_EMAIL.includes("https://cash-online.vercel.app/"),
   //     },
   //   ]
 
@@ -476,7 +476,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Enhanced welcome message
   setTimeout(() => {
-    // showNotification("Welcome to Official GIETUCash Swap! 🎓✨", "success")
+    // showNotification("Welcome to Official Cash-Online Swap! 🎓✨", "success")
   }, 1000)
 })
 
