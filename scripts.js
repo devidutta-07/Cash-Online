@@ -193,7 +193,7 @@ Are you available for this verified exchange?
 function openDirectWhatsApp() {
   const message = `Hi! 👋
 
-I have a question about the GIETU Cash ↔ Online Swap service.
+I have a question about the Cash ↔ Online Swap service.
 
 Could you please help me with:
 [ ] Service availability
