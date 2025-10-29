@@ -4,6 +4,19 @@ const CONFIG = {
   WHATSAPP_NUMBER: "917328804124", // Replace with your WhatsApp number (without + sign)
   UPDATES_CHANNEL: "https://chat.whatsapp.com/DRL85kuMvIMEX0tLsZKAl0?mode=ems_wa_t", // Replace with your channel link
 
+  // Google Form Settings
+  GOOGLE_FORM_ID: "1FAIpQLSeiQo_cUIbufNpKjXTfLJd96PaI1kWahvK64TfP-bxpU1IAWg",
+  GOOGLE_FORM_ENTRIES: {
+    NAME: "entry.1251924984",
+    ROLL_NO: "entry.1082850954",
+    WHAT_YOU_WANT: "entry.1396122857", // Cash or Online
+    AMOUNT: "entry.909900351",
+    SERVICE_FEE: "entry.772925230",
+    TOTAL_AMOUNT: "entry.1698394473",
+    COMPLETE_ORDER: "entry.1838678524", // Yes/No
+    ANY_NOTE: "entry.2133274330"
+  },
+
   // Team Information
   DEVELOPER_NAME: "Devidutta", // Replace with your actual name
   DEVELOPER_PORTFOLIO: "https://my-portfolio-three-jet-43.vercel.app/", // Replace with your portfolio URL
@@ -105,7 +118,31 @@ function setupRollValidation(rollInputId, validationMessageId) {
   }
 }
 
-function sendWhatsAppMessage(type) {
+// Submit data to Google Form silently using Image trick
+function submitToGoogleForm(formData) {
+  const baseUrl = `https://docs.google.com/forms/d/e/${CONFIG.GOOGLE_FORM_ID}/formResponse`
+  
+  const params = new URLSearchParams({
+    [CONFIG.GOOGLE_FORM_ENTRIES.NAME]: formData.name,
+    [CONFIG.GOOGLE_FORM_ENTRIES.ROLL_NO]: formData.rollNumber,
+    [CONFIG.GOOGLE_FORM_ENTRIES.WHAT_YOU_WANT]: formData.serviceType,
+    [CONFIG.GOOGLE_FORM_ENTRIES.AMOUNT]: formData.amount.toString(),
+    [CONFIG.GOOGLE_FORM_ENTRIES.SERVICE_FEE]: formData.serviceFee.toString(),
+    [CONFIG.GOOGLE_FORM_ENTRIES.TOTAL_AMOUNT]: formData.totalAmount.toString(),
+    [CONFIG.GOOGLE_FORM_ENTRIES.COMPLETE_ORDER]: "No",
+    [CONFIG.GOOGLE_FORM_ENTRIES.ANY_NOTE]: formData.note || ""
+  })
+  
+  const fullUrl = `${baseUrl}?${params.toString()}`
+  
+  // Use Image object to submit silently (no popup)
+  const img = new Image()
+  img.src = fullUrl
+  
+  return true
+}
+
+async function sendWhatsAppMessage(type) {
   const name =
     type === "cash"
       ? document.getElementById("cashName").value.trim()
@@ -147,12 +184,28 @@ function sendWhatsAppMessage(type) {
   if (amount > 500 && amount <= 1000) serviceFee = 15
   if (amount > 1000) serviceFee = 20
 
-  const serviceType = type === "cash" ? "cash" : "online transfer"
+  const serviceType = type === "cash" ? "Cash" : "Online"
   const actionType = type === "cash" ? "transfer online" : "have cash ready"
+  const totalAmount = Number.parseInt(amount) + serviceFee
 
   // Parse roll number for detailed information
   const parsed = parseRollNumber(rollNumber)
 
+  // Prepare data for Google Form
+  const formData = {
+    name: name,
+    rollNumber: rollNumber,
+    serviceType: serviceType,
+    amount: amount,
+    serviceFee: serviceFee,
+    totalAmount: totalAmount,
+    note: `Branch: ${parsed.branch}, Year: ${parsed.year}, Roll: ${parsed.rollNum}`
+  }
+
+  // Submit to Google Form silently (no popup)
+  submitToGoogleForm(formData)
+  
+  // Prepare WhatsApp message
   const message = `🎓 OFFICIAL Cash-Online REQUEST
 👤 Student Details:
 • Name: ${name}
@@ -163,11 +216,11 @@ function sendWhatsAppMessage(type) {
 
 💰 Transaction Details:
 • Amount: ₹${amount}
-• Service: I need ${serviceType}
+• Service: I need ${serviceType.toLowerCase()}
 • I can: ${actionType}
 • Service Fee: ₹${serviceFee}
 -----------------------
-• Total Amount: ₹${Number.parseInt(amount) + serviceFee}
+• Total Amount: ₹${totalAmount}
 
 Are you available for this verified exchange?
 #Cash-Online #StudentService #Verified`
@@ -177,16 +230,17 @@ Are you available for this verified exchange?
   // Enhanced loading state
   const button = event.target
   const originalText = button.innerHTML
-  button.innerHTML = '<span class="btn-icon">⏳</span>Connecting to WhatsApp...'
+  button.innerHTML = '<span class="btn-icon">⏳</span>Opening WhatsApp...'
   button.disabled = true
 
+  // Reset button after delay
   setTimeout(() => {
     button.innerHTML = originalText
     button.disabled = false
   }, 2000)
 
+  // Open WhatsApp immediately
   window.open(whatsappUrl, "_blank")
-  showNotification(`Opening WhatsApp for ₹${amount} ${serviceType} request`, "success")
 }
 
 // Direct WhatsApp contact
@@ -385,41 +439,6 @@ function checkConfiguration() {
   if (isConfigured || isHidden) {
     if (notice) notice.style.display = "none"
   }
-
-  // // Update configuration checklist
-  // const configList = document.getElementById("configList")
-  // if (configList) {
-  //   const items = [
-  //     { key: "WHATSAPP_NUMBER", text: "WhatsApp Number", configured: !CONFIG.WHATSAPP_NUMBER.includes("919876543210") },
-  //     {
-  //       key: "UPDATES_CHANNEL",
-  //       text: "Updates Channel Link",
-  //       configured: !CONFIG.UPDATES_CHANNEL.includes("your-channel-link"),
-  //     },
-  //     {
-  //       key: "DEVELOPER_NAME",
-  //       text: "Developer Name & Portfolio",
-  //       configured: !CONFIG.DEVELOPER_NAME.includes("Your Name"),
-  //     },
-  //     {
-  //       key: "MANAGER_NAME",
-  //       text: "Manager Name & Profile",
-  //       configured: !CONFIG.MANAGER_NAME.includes("Manager Name"),
-  //     },
-  //     {
-  //       key: "EMERGENCY_CONTACT",
-  //       text: "Emergency Contact Number",
-  //       configured: !CONFIG.EMERGENCY_CONTACT.includes("XXXX"),
-  //     },
-  //     {
-  //       key: "SUPPORT_EMAIL",
-  //       text: "Support Email",
-  //       configured: !CONFIG.SUPPORT_EMAIL.includes("https://cash-online.vercel.app/"),
-  //     },
-  //   ]
-
-  //   configList.innerHTML = items.map((item) => `<li>${item.configured ? "✅" : "❌"} ${item.text}</li>`).join("")
-  // }
 }
 
 // Initialize when DOM is loaded
@@ -473,11 +492,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Add interaction effects
   addInteractionEffects()
-
-  // Enhanced welcome message
-  setTimeout(() => {
-    // showNotification("Welcome to Official Cash-Online Swap! 🎓✨", "success")
-  }, 1000)
 })
 
 // Add CSS for ripple animation
